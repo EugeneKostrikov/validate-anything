@@ -1,10 +1,10 @@
 {
-  "name": "async-access",
+  "name": "validate-anything",
   "version": "0.0.0",
-  "description": "Async access control rules",
+  "description": "Async validation rules",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha"
   },
   "author": "Eugene Kostrikov <eugene.kostrikov@gmail.com> (https://github.com/EugeneKostrikov)",
   "license": "MIT",
@@ -12,5 +12,8 @@
     "chai": "~1.9.1",
     "mocha": "~1.18.2",
     "should": "~3.3.1"
+  },
+  "dependencies": {
+    "redis": "~0.10.1"
   }
 }
