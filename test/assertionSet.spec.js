@@ -121,5 +121,16 @@ describe('AsserionsSet class', function(){
         done();
       });
     });
+    it('context and args params should be optional', function(done){
+      testSet.validate('read', function(err, ok){
+        should.not.exist(err);
+        ok.should.be.ok;
+        testSet.validate('read', {}, function(err, ok){
+          should.not.exist(err);
+          ok.should.be.ok;
+          done();
+        });
+      });
+    });
   });
 });
