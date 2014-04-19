@@ -1,8 +1,8 @@
 var should = require('should');
 var Memo = require('../lib/memo');
-var storage = require('../lib/storage');
-var memoize = new Memo(storage, 10000);
-//memoize.set('timeout', 60 * 1000);
+var Storage = require('../lib/storage');
+var storage = new Storage();
+var memoize = new Memo(storage);
 
 describe('Memoize', function(){
   before(function(){
@@ -19,7 +19,7 @@ describe('Memoize', function(){
   });
   it('should run assertions with the same params only once', function(done){
     var start = Date.now();
-    var rnd = Math.random();
+    var rnd = 'params';
     memoize.validate('test', {rnd: rnd}, function(err){
       should.not.exist(err);
       (Date.now() - start).should.greaterThan(100);
@@ -33,11 +33,11 @@ describe('Memoize', function(){
   });
   it('run validation again if context has changed', function(done){
     var start = Date.now();
-    memoize.validate('test', {rnd: Math.random()}, function(err){
+    memoize.validate('test', {rnd: 'first param'}, function(err){
       should.not.exist(err);
       (Date.now() - start).should.greaterThan(100);
       start = Date.now();
-      memoize.validate('test', {rnd: Math.random()}, function(err){
+      memoize.validate('test', {rnd: 'second param'}, function(err){
         should.not.exist(err);
         (Date.now() - start).should.be.greaterThan(100);
         done();
@@ -46,11 +46,11 @@ describe('Memoize', function(){
   });
   it('run validation again if params have changed', function(done){
     var start = Date.now();
-    memoize.validate('test', {}, [Math.random()], function(err){
+    memoize.validate('test', {}, ['first param'], function(err){
       should.not.exist(err);
       (Date.now() - start).should.greaterThan(100);
       start = Date.now();
-      memoize.validate('test', {}, [Math.random()], function(err){
+      memoize.validate('test', {}, ['second param'], function(err){
         should.not.exist(err);
         (Date.now() - start).should.be.greaterThan(100);
         done();
@@ -63,13 +63,32 @@ describe('Memoize', function(){
       (memoize.validate).should.be.a.Function;
       done();
     });
+    it('should expose storage drop method', function(done){
+      memoize.drop(function(err){
+        should.not.exist(err);
+        done();
+      });
+    });
+    it('should expose storage del method', function(done){
+      memoize.validate('test', {param: 1}, ['two'], function(err){
+        should.not.exist(err);
+        memoize.del({param: 1}, ['two'], function(err, count){
+          should.not.exist(err);
+          (count).should.equal(1);
+          done();
+        });
+      });
+    });
   });
   describe('Memo storage interface', function(){
     it('should throw error if storage interface lacks required methods', function(done){
       (function(){
         var testMemo = new Memo({});
-      }).should.throw('Storage lacks the following methods: set,get,expire,del');
+      }).should.throw('Storage lacks the following methods: set,get,expire,del,drop');
       done();
     });
+  });
+  after(function(){
+    storage.drop();
   });
 });
