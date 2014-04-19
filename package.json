@@ -1,0 +1,16 @@
+{
+  "name": "async-access",
+  "version": "0.0.0",
+  "description": "Async access control rules",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Eugene Kostrikov <eugene.kostrikov@gmail.com> (https://github.com/EugeneKostrikov)",
+  "license": "MIT",
+  "devDependencies": {
+    "chai": "~1.9.1",
+    "mocha": "~1.18.2",
+    "should": "~3.3.1"
+  }
+}
