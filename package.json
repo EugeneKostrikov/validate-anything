@@ -6,6 +6,10 @@
   "scripts": {
     "test": "mocha"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/EugeneKostrikov/validate-anything.git"
+  },
   "author": "Eugene Kostrikov <eugene.kostrikov@gmail.com> (https://github.com/EugeneKostrikov)",
   "license": "MIT",
   "devDependencies": {
